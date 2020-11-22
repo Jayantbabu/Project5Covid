@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class CovidDataInput 
 {
-    private DLList<State> state;
-    private DLList<Race> race;
+    private SinglyLinkedList<State> state;
+    private SinglyLinkedList<Race> race;
 
 
 /**
@@ -38,7 +38,7 @@ public class CovidDataInput
   */
   private void readCSVFile(String fileName)
   {
-      state = new DLList<State>();
+      state = new SinglyLinkedList<State>();
       
       Scanner file = null;
       try {
@@ -56,7 +56,7 @@ public class CovidDataInput
       }
       while (file.hasNextLine())
       {
-          race = new DLList<Race>();
+          race = new SinglyLinkedList<Race>();
           String[] filestates = file.nextLine().split(", *");
           for (int i = 1; i < 6; i++)
           {
@@ -70,8 +70,8 @@ public class CovidDataInput
               {
                   deaths = "0";
               }
-              race.add(new Race(title[i], Integer.valueOf(cases), Integer
-                  .valueOf(deaths)));
+              race.add(new Race(Integer
+                  .valueOf(deaths), Integer.valueOf(cases), title[i]));
           }
           state.add(new State(filestates[0], race));
       }
@@ -89,7 +89,7 @@ public class CovidDataInput
    {
        PrintWriter writer = new PrintWriter(new File(fileName));
        CovidCalculator covid = new CovidCalculator(state);
-       covid.sortAlphabatically();
+       covid.sortAlphabetically();
        
        writer.write("List is sorted in Alphabatical order\n");
        writer.write("====================================\n");

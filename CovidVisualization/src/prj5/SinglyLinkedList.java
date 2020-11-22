@@ -37,11 +37,11 @@ public class SinglyLinkedList<E> implements LList<E>{
         /**
          * Sets the node after this node
          *
-         * @param n
+         * @param head
          *            the node after this one
          */
-        public void setNext(Node<D> n) {
-            next = n;
+        public void setNext(Node<D> head) {
+            next = head;
         }
 
 
@@ -66,7 +66,7 @@ public class SinglyLinkedList<E> implements LList<E>{
     }
 
     
-    private Node<E> head;
+    public Node<E> head;
     private int size;
     /**
      * constructor here
@@ -432,4 +432,43 @@ public class SinglyLinkedList<E> implements LList<E>{
 
         return false;
     }
+    
+    @SuppressWarnings("unchecked")
+    public <D> void insertionSort() {
+        if (size > 1) {
+           Node<D> unSorted = (Node<D>)head.next;
+           head.setNext(null);
+           while (unSorted != null) {
+               Node<D> insert = unSorted;
+               unSorted = unSorted.next;
+               insertIntoSorted(insert);
+           }
+       }
+
+   } // end insertionSort
+
+   /**
+    * Helper method to insert a node into its proper location in a sorted linked chain.
+    * @param <D>
+    * @param nodeToInsert: node to add to sorted section of list
+    */
+   @SuppressWarnings("unchecked")
+   public <D> void insertIntoSorted(Node<D> nodeToInsert) {
+       D value = nodeToInsert.data;
+       Node<D> current = (Node<D>)head;
+       Node<D> previous = null;
+       while ((current != null) && ((String)value).compareTo((String)current.data) > 0) {
+           previous = current;
+           current = current.next;
+       }
+       if (previous!= null) {
+           previous.setNext(nodeToInsert);
+           nodeToInsert.setNext(current);
+       }
+       else {
+           nodeToInsert.setNext((Node<D>)head);
+           head = (Node<E>)nodeToInsert;
+       }
+           
+   }
 }
